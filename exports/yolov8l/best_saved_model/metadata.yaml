@@ -1,0 +1,19 @@
+description: Ultralytics best model trained on /home/wchuter/Willie-ML/GEEN1400-Final-Project/datasets/trash-6//data.yaml
+author: Ultralytics
+license: AGPL-3.0 https://ultralytics.com/license
+date: '2023-10-25T11:44:43.016603'
+version: 8.0.200
+stride: 32
+task: detect
+batch: 1
+imgsz:
+- 640
+- 640
+names:
+  0: Cardboard
+  1: Compost
+  2: Glass
+  3: Metal
+  4: Paper
+  5: Plastic
+  6: Trash

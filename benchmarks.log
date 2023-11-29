@@ -1,0 +1,96 @@
+
+Benchmarks complete for yolov8l-cls.pt on imagenet10 at imgsz=224 (154.01s)
+                   Format Status❔  Size (MB)  metrics/accuracy_top1  Inference time (ms/im)
+0                 PyTorch       ✅       71.7                    0.0                   12.00
+1             TorchScript       ✅      139.9                    0.0                    2.24
+2                    ONNX       ✅      139.7                    0.0                   18.02
+3                OpenVINO       ❌        0.0                    NaN                     NaN
+4                TensorRT       ❎      141.4                    NaN                     NaN
+5                  CoreML       ❌        0.0                    NaN                     NaN
+6   TensorFlow SavedModel       ❌        0.0                    NaN                     NaN
+7     TensorFlow GraphDef       ❌        0.0                    NaN                     NaN
+8         TensorFlow Lite       ❌        0.0                    NaN                     NaN
+9     TensorFlow Edge TPU       ❌        0.0                    NaN                     NaN
+10          TensorFlow.js       ❌        0.0                    NaN                     NaN
+11           PaddlePaddle       ✅      279.4                    0.0                  378.53
+12                   ncnn       ✅      139.6                    0.0                   22.45
+
+Benchmarks complete for best.pt on imagenet10 at imgsz=224 (108.48s)
+                   Format Status❔  Size (MB) metrics/accuracy_top1 Inference time (ms/im)
+0                 PyTorch       ❎       69.3                  None                   None
+1             TorchScript       ❎      138.3                  None                   None
+2                    ONNX       ❎      138.1                  None                   None
+3                OpenVINO       ❌        0.0                  None                   None
+4                TensorRT       ❎      139.9                  None                   None
+5                  CoreML       ❌        0.0                  None                   None
+6   TensorFlow SavedModel       ❌        0.0                  None                   None
+7     TensorFlow GraphDef       ❌        0.0                  None                   None
+8         TensorFlow Lite       ❌        0.0                  None                   None
+9     TensorFlow Edge TPU       ❌        0.0                  None                   None
+10          TensorFlow.js       ❌        0.0                  None                   None
+11           PaddlePaddle       ❎      276.3                  None                   None
+12                   ncnn       ❎      138.1                  None                   None
+
+Benchmarks complete for best.pt on datasets/trash-2/clip at imgsz=224 (244.28s)
+                   Format Status❔  Size (MB)  metrics/accuracy_top1  Inference time (ms/im)
+0                 PyTorch       ✅       69.3                 0.8113                    3.65
+1             TorchScript       ✅      138.3                 0.8208                    3.30
+2                    ONNX       ✅      138.1                 0.8208                   17.91
+3                OpenVINO       ❌        0.0                    NaN                     NaN
+4                TensorRT       ❎      140.0                    NaN                     NaN
+5                  CoreML       ❌        0.0                    NaN                     NaN
+6   TensorFlow SavedModel       ❌        0.0                    NaN                     NaN
+7     TensorFlow GraphDef       ❌        0.0                    NaN                     NaN
+8         TensorFlow Lite       ❌        0.0                    NaN                     NaN
+9     TensorFlow Edge TPU       ❌        0.0                    NaN                     NaN
+10          TensorFlow.js       ❌        0.0                    NaN                     NaN
+11           PaddlePaddle       ✅      276.3                 0.8208                  381.37
+12                   ncnn       ✅      138.1                 0.8208                   22.08
+
+Benchmarks complete for best.pt on datasets/trash-2/clip at imgsz=224 (242.84s)
+                   Format Status❔  Size (MB)  metrics/accuracy_top1  Inference time (ms/im)
+0                 PyTorch       ✅       69.3                 0.8113                    3.68
+1             TorchScript       ✅      138.3                 0.8208                    3.31
+2                    ONNX       ✅      138.1                 0.8208                   17.66
+3                OpenVINO       ❌        0.0                    NaN                     NaN
+4                TensorRT       ✅      139.9                 0.8208                    1.46
+5                  CoreML       ❌        0.0                    NaN                     NaN
+6   TensorFlow SavedModel       ❌        0.0                    NaN                     NaN
+7     TensorFlow GraphDef       ❌        0.0                    NaN                     NaN
+8         TensorFlow Lite       ❌        0.0                    NaN                     NaN
+9     TensorFlow Edge TPU       ❌        0.0                    NaN                     NaN
+10          TensorFlow.js       ❌        0.0                    NaN                     NaN
+11           PaddlePaddle       ✅      276.3                 0.8208                  381.26
+12                   ncnn       ✅      138.1                 0.8208                   21.63
+
+Benchmarks complete for best.pt on datasets/trash-2/clip at imgsz=224 (211.62s)
+                   Format Status❔  Size (MB)  metrics/accuracy_top1  Inference time (ms/im)
+0                 PyTorch       ✅       69.3                 0.8113                    3.52
+1             TorchScript       ✅      138.3                 0.8208                    3.30
+2                    ONNX       ✅      138.1                 0.8208                   17.71
+3                OpenVINO       ❌        0.0                    NaN                     NaN
+4                TensorRT       ✅      139.9                 0.8208                    1.46
+5                  CoreML       ❌        0.0                    NaN                     NaN
+6   TensorFlow SavedModel       ❌        0.0                    NaN                     NaN
+7     TensorFlow GraphDef       ❌        0.0                    NaN                     NaN
+8         TensorFlow Lite       ❌        0.0                    NaN                     NaN
+9     TensorFlow Edge TPU       ❌        0.0                    NaN                     NaN
+10          TensorFlow.js       ❌        0.0                    NaN                     NaN
+11           PaddlePaddle       ✅      276.3                 0.8208                  381.17
+12                   ncnn       ✅      138.1                 0.8208                   22.40
+
+Benchmarks complete for yolov8x-cls.pt on /home/wchuter/Willie-ML/GEEN1400-Final-Project/datasets/trash-2/clip at imgsz=224 (302.85s)
+                   Format Status❔  Size (MB)  metrics/accuracy_top1  Inference time (ms/im)
+0                 PyTorch       ✅      109.7                 0.8113                    4.82
+1             TorchScript       ✅      214.4                 0.8082                    4.40
+2                    ONNX       ✅      214.2                 0.8082                   23.08
+3                OpenVINO       ❌        0.0                    NaN                     NaN
+4                TensorRT       ✅      216.9                 0.8082                    1.78
+5                  CoreML       ❌        0.0                    NaN                     NaN
+6   TensorFlow SavedModel       ❌        0.0                    NaN                     NaN
+7     TensorFlow GraphDef       ❌        0.0                    NaN                     NaN
+8         TensorFlow Lite       ❌        0.0                    NaN                     NaN
+9     TensorFlow Edge TPU       ❌        0.0                    NaN                     NaN
+10          TensorFlow.js       ❌        0.0                    NaN                     NaN
+11           PaddlePaddle       ✅      428.4                 0.8082                  581.89
+12                   ncnn       ✅      214.1                 0.8082                   27.79

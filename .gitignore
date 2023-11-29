@@ -1,0 +1,31 @@
+mac-only
+venv
+.DS_Store
+yolov8-via-roboflow/datasets
+datasets
+runs
+raspvenv
+*.jpg
+.env
+
+#model traning weights directories
+trash-classification
+runs
+
+#old repo init stuff
+
+old
+yolov8l.pt
+yolov8m.pt
+yolov8n.pt
+yolov8s.pt
+yolov8x.pt
+*.pt
+*.onnx
+exports
+!exports/lightweight
+#!exports/**
+
+#folders for random shit
+.ipynb_checkpoints
+**/__pycache__/

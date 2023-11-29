@@ -1,0 +1,19 @@
+names:
+- Cardboard
+- Compost
+- Glass
+- Metal
+- Paper
+- Plastic
+- Trash
+nc: 7
+roboflow:
+  license: CC BY 4.0
+  project: trash-xvysc
+  url: https://universe.roboflow.com/trashclassification-tayqe/trash-xvysc/dataset/2
+  version: 2
+  workspace: trashclassification-tayqe
+path: C:\Users\Willie\Documents\coding\ML\GEEN1400-Final-Project
+test: datasets/trash-2/test/images
+train: datasets/trash-2/train/images
+val: datasets/trash-2/valid/images

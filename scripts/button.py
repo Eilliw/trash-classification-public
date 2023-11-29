@@ -1,0 +1,183 @@
+import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
+from gpiozero import Servo,pins
+import dotenv
+import os
+import sys
+import time
+from picamera2 import Picamera2
+from functools import partial
+from PIL import Image
+
+os.chdir(".")
+cwd = os.getcwd()
+print(cwd)
+sys.path.insert(0, f"{cwd}/triton_client")
+from inference import InferenceClient
+
+
+
+
+
+pigpio_factory = pins.pigpio.PiGPIOFactory()
+#must start pigpio daemon with sudo pigpiod
+dotenv.load_dotenv(".env")
+
+def next_path(path_pattern):
+    """
+    Finds the next free path in an sequentially named list of files
+
+    e.g. path_pattern = 'file-%s.txt':
+
+    file-1.txt
+    file-2.txt
+    file-3.txt
+
+    Runs in log(n) time where n is the number of existing files in sequence
+    """
+    i = 1
+
+    # First do an exponential search
+    while os.path.exists(path_pattern % i):
+        i = i * 2
+
+    # Result lies somewhere in the interval (i/2..i]
+    # We call this interval (a..b] and narrow it down until a + 1 = b
+    a, b = (i // 2, i)
+    while a + 1 < b:
+        c = (a + b) // 2 # interval midpoint
+        a, b = (c, b) if os.path.exists(path_pattern % c) else (a, c)
+
+    return path_pattern % b
+
+class InferenceButton():
+    def __init__(self, inference_client_object :InferenceClient , picam2_obj, servo1, servo2, mode="run") -> None:
+        self.mode = mode
+        self.inference_client_obj = inference_client_object
+        self.picam2_obj = picam2_obj
+        
+        GPIO.setwarnings(False) # Ignore warning for now
+        GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+        GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
+
+        self.servo_pulse_widths = [.5/1000,0, 2.5/1000]
+        GPIO.add_event_detect(10,GPIO.RISING,callback=self.button_callback)
+        self.servo1 = Servo(servo1, min_pulse_width=self.servo_pulse_widths[0], max_pulse_width= self.servo_pulse_widths[2], pin_factory=pigpio_factory)
+        self.servo2 = Servo(servo2, min_pulse_width=self.servo_pulse_widths[0], max_pulse_width= self.servo_pulse_widths[2], pin_factory=pigpio_factory)
+        
+
+        #message = input("Press enter to quit\n\n")
+    def capture_img(self, picam2):
+        frame = picam2.capture_array("main")
+        print(frame.shape)
+            
+        cropped = self.inference_client_obj.crop_center(frame, 640,640)
+        return cropped
+    def inference_request(self, image):
+        client = self.inference_client_obj
+        output = client.call(image)
+        clean_output = client.match_class(output[0])
+        return clean_output
+        
+    def button_callback(self, channel):
+        ### send inference request to InfrenceClient
+        image = self.capture_img(self.picam2_obj)
+        output = self.inference_request(image)
+        ### take inference  output and move matching servo
+        #output = (1.0000, 'Trash')
+        print(f"detected : {output[1]}-{output[0]}")
+        classification = output[1]
+        if classification =='Trash' or classification=='Recycle':
+            pass
+        elif classification in ['Paper', 'Metal', 'Plastic', 'Cardboard', 'Glass']:
+            classification = 'Recycle'
+        elif classification in ['Trash', 'Compost']:
+            classification ='Recycle'
+        if classification == 'Trash':
+            servo = self.servo1
+        elif classification == "Recycle":
+            servo = self.servo2
+        #print(f"servo value : {servo.value}\nservo pusle width:{servo.pulse_width}")
+        print(f"classification as [{classification}-{output[0]}]")
+        print("Button was pushed!")
+        #servo.min()
+        #sleep(1)
+        #print(f"servo min val:{servo.value}")
+        #servo.mid()
+        #sleep(1)
+        #print(f"servo mid val:{servo.value}")
+        #servo.max()
+        #sleep(1)
+        #print(f"servo max val:{servo.value}")
+        servo.max()
+        print(f"servo min val:{servo.value}\nsleeping for 10 seconds")
+        time.sleep(10)
+        servo.mid()
+        print(f"servo min val:{servo.value}")
+        time.sleep(.5)
+        servo.detach()
+        
+        if self.mode == 'test':
+            self.test(image, classification)
+    def test(self, image, classification):
+        print("entering test phase")
+        class_q = input(f"was the class prediction of {classification} correct?(y/n): ")
+        im = Image.fromarray(image)
+        if class_q == 'yes':
+            next_name = next_path(f"{cwd}/lib/test_collection/{classification}/{classification}-%s.jpg")
+            im.save(next_name)
+            print(f"saved test image to {next_name}")
+        else:
+            match classification:
+                case "Trash":
+                    classification="Recycle"
+                case 'Recycle':
+                    classification="Trash"
+            next_name = next_path(f"{cwd}/lib/test_collection/{classification}/{classification}-%s.jpg")
+            im.save(next_name)
+            print(f"saved test image to {next_name}")
+        return
+    def clean_up(self):
+        GPIO.cleanup()
+    
+
+#GPIO.setwarnings(False) # Ignore warning for now
+#GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+#GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
+
+#GPIO.add_event_detect(10,GPIO.RISING,callback=button_callback) # Setup event on pin 10 rising edge
+
+#servo_pulse_widths = [1/1000,0, 2/1000]
+
+#servo = Servo(27, min_pulse_width=servo_pulse_widths[0], max_pulse_width=servo_pulse_widths[2])
+#message = input("Press enter to quit\n\n") # Run until someone presses enter
+if __name__ == "__main__":
+    
+    print(os.getcwd())
+    client = InferenceClient("192.168.191.129", "yolov8x-cls", "grpc", labels='lib/labels/yolov8-7classes.txt')
+    print("made client")
+    print("aliveness check:", client.is_server_live())
+    
+    picam2 = Picamera2()
+    
+    still_config = picam2.create_still_configuration(main={"size": (640,640), "format":'RGB888'})
+    picam2.configure(still_config)
+    picam2.start()
+    time.sleep(1)
+    
+    button = InferenceButton(client, picam2, 22, 27, mode='test')
+    
+    #initilising camera
+    
+    try:
+        while True:
+            #capturing image
+            pass
+            
+    except KeyboardInterrupt:
+        button.clean_up()
+        client.close()
+        picam2.stop()
+    
+    
+
+#GPIO.cleanup() # Clean up
