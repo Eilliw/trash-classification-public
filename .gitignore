@@ -24,7 +24,15 @@ yolov8x.pt
 *.onnx
 exports
 !exports/lightweight
+yolov8*-cls.torchscript
 #!exports/**
+
+#folder containing collected test samples
+lib/test_collection/Recycle/
+lib/test_collection/Trash/
+
+#Folders of deps in edge_testing and temp
+edge_testing/temp
 
 #folders for random shit
 .ipynb_checkpoints

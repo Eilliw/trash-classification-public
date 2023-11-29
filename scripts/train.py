@@ -1,8 +1,8 @@
 # if __name__ == "__main__":
 #     raise ChildProcessError
 import os
-import comet_ml
-from comet_ml import API
+#import comet_ml
+#from comet_ml import API
 from roboflow import Roboflow
 from IPython import display
 import shutil
@@ -110,11 +110,10 @@ class YOLO_Trainer():
             dataset_type = "yolov8"
         if self.dataset_version == 'latest':
                 
-            project_versions = project.get_version_information()
-            version_max = project_versions[0]['id'][-1]
-            dataset_abs_path = os.path.abspath(f"{os.getcwd()}/datasets/trash-{version_max}/{dataset_type}")
+            project_versions = len(project.versions())
+            dataset_abs_path = os.path.abspath(f"{os.getcwd()}/datasets/{self.classify_project_id}/{project_versions}/{dataset_type}")
             
-            dataset = project.version(version_max).download(dataset_type,overwrite=False, location=dataset_abs_path)
+            dataset = project.version(project_versions).download(dataset_type,overwrite=False, location=dataset_abs_path)
             return dataset
         else:
             dataset_abs_path = os.path.abspath(f"{os.getcwd()}/datasets/trash-{self.project_version}/{dataset_type}")
