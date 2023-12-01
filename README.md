@@ -207,6 +207,7 @@ Distributed under the GNU GPL-3.0 License. See `LICENSE` for more information.
 
 <!-- Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - willie.chuter@colorado.edu -->
 Willie Chuter - willie.chuter@colorado.edu
+
 Project Link: [https://github.com/Eilliw/trash-classification-public](https://github.com/Eilliw/trash-classification-public)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
