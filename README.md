@@ -66,8 +66,10 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#edge-prerequisites">Edge Prerequisites</a></li>
+        <li><a href="#edge-installation">Edge Installation</a></li>
+        <li><a href="#train-prerequisites">Train Prerequisites</a></li>
+        <li><a href="#train-installation">Train Installation</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -86,7 +88,6 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `Eilliw`, `trash-classification-public`, `twitter_handle`, `willie-chuter`, `colorado.edu`, `willie.chuter`, `Trash Classification - Edge Deployment, Traning, & Testing`, `project_description`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -94,14 +95,10 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+* [![Raspberry-pi][Rasp]][Rasp-url]
+* [![Python3.10][Python]][Python-url]
+* [![YOLOv8][Ulttralytics]][Ultralytics-url]
+* [![Nvidia-Triton][Nvidia]][Triton-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -243,6 +240,21 @@ Project Link: [https://github.com/Eilliw/trash-classification-public](https://gi
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/willie-chuter
 [product-screenshot]: images/screenshot.png
+
+[Rasp]: https://img.shields.io/badge/Raspberry--pi(64bit)-#A22846?style=for-the-badge&logo=raspberrypi&logoColor=E30B5D
+[Rasp-url]: https://www.raspberrypi.com/software/operating-systems/#raspberry-pi-os-64-bit
+
+[Python]: https://img.shields.io/badge/Python3.10-000000?style=for-the-badge&logo=python&logoColor=#3776AB
+[Python-url]: https://www.python.org/downloads/
+
+[Ultralytics]: https://img.shields.io/badge/Ultralytics--YOLOv8-0000FF?style=for-the-badge&logo=pytorch&logoColor=#EE4C2C
+[Ultralytics-url]: https://github.com/ultralytics/ultralytics
+
+[Nvidia]: https://img.shields.io/badge/Nvidia-Triton-808080?style=for-the-badge&logo=nvidia&logoColor=#76B900
+[Triton-url]: https://catalog.ngc.nvidia.com/orgs/nvidia/containers/tritonserver
+
+
+
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
