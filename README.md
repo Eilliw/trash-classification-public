@@ -97,7 +97,7 @@
 
 * [![Raspberry-pi][Rasp]][Rasp-url]
 * [![Python3.10][Python]][Python-url]
-* [![YOLOv8][Ulttralytics]][Ultralytics-url]
+* [![YOLOv8][Ultralytics]][Ultralytics-url]
 * [![Nvidia-Triton][Nvidia]][Triton-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -241,14 +241,14 @@ Project Link: [https://github.com/Eilliw/trash-classification-public](https://gi
 [linkedin-url]: https://www.linkedin.com/in/willie-chuter
 [product-screenshot]: images/screenshot.png
 
-[Rasp]: https://img.shields.io/badge/Raspberry--pi(64bit)-#A22846?style=for-the-badge&logo=raspberrypi&logoColor=E30B5D
+[Rasp]: https://img.shields.io/badge/Raspberry--pi(64bit)-e77499?style=for-the-badge&logo=raspberrypi&logoColor=A22846
 [Rasp-url]: https://www.raspberrypi.com/software/operating-systems/#raspberry-pi-os-64-bit
 
 [Python]: https://img.shields.io/badge/Python3.10-000000?style=for-the-badge&logo=python&logoColor=#3776AB
 [Python-url]: https://www.python.org/downloads/
 
 [Ultralytics]: https://img.shields.io/badge/Ultralytics--YOLOv8-0000FF?style=for-the-badge&logo=pytorch&logoColor=#EE4C2C
-[Ultralytics-url]: https://github.com/ultralytics/ultralytics
+[Ultralytics-url]: https://github.com/ultralytics/ultralytics/
 
 [Nvidia]: https://img.shields.io/badge/Nvidia-Triton-808080?style=for-the-badge&logo=nvidia&logoColor=#76B900
 [Triton-url]: https://catalog.ngc.nvidia.com/orgs/nvidia/containers/tritonserver
