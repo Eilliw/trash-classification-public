@@ -110,30 +110,66 @@
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
+### Edge Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+This is intended to be run on a raspberry pi running on Debian bookworm
+* Pi updates
+   ```sh
+   sudo apt update
+   ```
+    ```sh
+    sudo apt upgrade
+    ```
 
-### Installation
+* libcamera
+  Make sure libcamera is up to date and shows a preview from one of the follwing commands
+   ```sh
+   libcamera-hello
+   ```
+   ```sh
+   libcamera-hello --qt-preview
+   ```
+* pigpiod
+   This package is heavily reccomended since it controls servos with minial twitch
+   ```sh
+   sudo apt install pigpiod
+   ```
+### Edge Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+Follow these instructions to get a local copy up and running. 
+Much of the code will have to be changed to fix path issues.
+
+1. Clone the repo
    ```sh
    git clone https://github.com/Eilliw/trash-classification-public.git
    ```
-3. Install NPM packages
+2. cd into repo directory
+3. Create python venv
    ```sh
-   npm install
+   python3 -m venv venv --system-site-packages
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+4. Install python dependencies
+   ```sh
+   source venv/bin/activate
    ```
+   ```sh
+   pip3 install -r edge_requirements.txt
+   ```
+5. Edit `bin/run_edge_on_startup.sh` paths
+6. Set Roboflow API key in `.env`
+   ```env
+   ROBOFLOW_API_KEY="YOUR API KEY HERE"
+   ```
+7. Run either testing script or running script
+   ```sh
+   bash bin/run_testing.sh
+   ```
+   ```sh
+   bash bin/run_on_startup.sh
+   ```
+### Train Prerequisites
 
+### Train Installation
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
