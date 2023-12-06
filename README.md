@@ -200,9 +200,9 @@ _For more examples, please refer to the [Documentation](https://example.com)_
     - [x] Auto dataset upload
     - [x] Gui
     - [ ] Voxel Fiftyone integration
-- [ ] Triton server container script
+- [x] Triton server container script
 - [ ] Post Expo
-    - [x] Docker traning container
+    - [ ] Docker traning container
     - [ ] Auto traning
 
 See the [open issues](https://github.com/Eilliw/trash-classification-public/issues) for a full list of proposed features (and known issues).
