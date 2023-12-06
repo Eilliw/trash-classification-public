@@ -110,6 +110,9 @@
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
+This repository contains the triton_server submodule that you can use if you wish to inference a remote model. 
+In this project, a remote triton server is being used.
+
 ### Edge Prerequisites
 
 This is intended to be run on a raspberry pi running on Debian bookworm
@@ -199,7 +202,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
     - [ ] Voxel Fiftyone integration
 - [ ] Triton server container script
 - [ ] Post Expo
-    - [ ] Docker traning container
+    - [x] Docker traning container
     - [ ] Auto traning
 
 See the [open issues](https://github.com/Eilliw/trash-classification-public/issues) for a full list of proposed features (and known issues).
