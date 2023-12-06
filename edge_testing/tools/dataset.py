@@ -87,7 +87,7 @@ class PiCamDataset():
         path  = cwd+"/"+path
         if sequential:
             if not os.path.exists(path):
-                os.mkdir(path)
+                os.makedirs(path)
             next_name = next_path(path+"/"+path_pattern)
             try:
                 img.save(next_name)
