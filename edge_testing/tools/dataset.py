@@ -2,8 +2,36 @@ from roboflow import Roboflow
 import os
 import glob
 import json
+from PIL import Image
 from  datetime import datetime, timezone
 
+
+def next_path(path_pattern):
+    """
+    Finds the next free path in an sequentially named list of files
+
+    e.g. path_pattern = 'file-%s.txt':
+
+    file-1.txt
+    file-2.txt
+    file-3.txt
+
+    Runs in log(n) time where n is the number of existing files in sequence
+    """
+    i = 1
+
+    # First do an exponential search
+    while os.path.exists(path_pattern % i):
+        i = i * 2
+
+    # Result lies somewhere in the interval (i/2..i]
+    # We call this interval (a..b] and narrow it down until a + 1 = b
+    a, b = (i // 2, i)
+    while a + 1 < b:
+        c = (a + b) // 2 # interval midpoint
+        a, b = (c, b) if os.path.exists(path_pattern % c) else (a, c)
+
+    return path_pattern % b
 
 class PiCamDataset():
     def __init__(self) -> None:
@@ -53,6 +81,15 @@ class PiCamDataset():
     def collection_upload(self, path="lib/image_collection", delete=False):
         batch_name_datetime = datetime.now(timezone.utc).strftime("%y-%m-%d_%H:%M_%Z-auto_upload")
         self.upload_dir(path, ["Auto_upload", "unlabeled"], with_annotations=False, batch_name=batch_name_datetime)
+    
+    def save_to_local(self, img: Image.Image, path, path_pattern, sequential=True):
+        if sequential:
+            next_name = next_path(path+"/"+path_pattern)
+            try:
+                img.save(next_name)
+                print("saved image to "+next_name)
+            except:
+                raise
 
 if __name__ == "__main__":
     dataset = PiCamDataset()
