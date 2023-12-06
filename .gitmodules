@@ -1,0 +1,3 @@
+[submodule "triton_server"]
+	path = triton_server
+	url = https://github.com/Eilliw/tc-triton-server
