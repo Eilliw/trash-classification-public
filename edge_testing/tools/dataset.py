@@ -2,7 +2,7 @@ from roboflow import Roboflow
 import os
 import glob
 import json
-
+from  datetime import datetime, timezone
 
 
 class PiCamDataset():
@@ -38,13 +38,21 @@ class PiCamDataset():
         with open(json_path, "w") as outfile:
             outfile.write(json_object)
         return json_path
-    def upload_dirs(self, dirs: list[str], ext=".jpg", annotations=None):
+    def upload_dir(self, dir, tags=[], ext=".jpg", with_annotations=False, batch_name  = None):
+        clean_dir = dir.split("/")[-1]
+        image_glob = glob.glob(dir + '/*' + ext)
+        for img in image_glob:
+            if with_annotations==True:
+                self.project.upload(img, annotation_path=clean_dir,  tag_names=tags, batch_name=batch_name)
+            else:
+                self.project.upload(img, tag_names=tags, batch_name=batch_name)
+    def upload_dirs(self, dirs: list[str], ext=".jpg", with_annotations=False):
         for dir in dirs:
-            clean_dir = dir.split("/")[-1]
-            image_glob = glob.glob(dir + '/*' + ext)
-            for img in image_glob:
-                self.project.upload(img, annotation_path=clean_dir)
+            self.upload_dir(dir, with_annotations=with_annotations)
         return
+    def collection_upload(self, path="lib/image_collection", delete=False):
+        batch_name_datetime = datetime.now(timezone.utc).strftime("%y-%m-%d_%H:%M_%Z-auto_upload")
+        self.upload_dir(path, ["Auto_upload", "unlabeled"], with_annotations=False, batch_name=batch_name_datetime)
 
 if __name__ == "__main__":
     dataset = PiCamDataset()
