@@ -15,6 +15,8 @@ class TestingGUI:
         self.dataset = dataset
         self.image_flag = image_flag
 
+        self.exit_flag = Event()
+
         self.canvas = Canvas(self.root, height=224, width=224, bg='gray')
         self.canvas.grid(row=0, column=1, rowspan=4, columnspan=4)
 
@@ -28,6 +30,7 @@ class TestingGUI:
         self.label_style.configure("DF.TLabel", foreground="white", background="grey")
 
         self.buttons_labels()
+        self.image_flag.set()
 
     
     def buttons_labels(self):
@@ -37,7 +40,7 @@ class TestingGUI:
 
         self.classification_label_text = 'Classification: '
         self.classification_label =  Label(self.root, text=self.classification_label_text)
-        self.classification_label.grid(row=6, column=0)
+        self.classification_label.grid(row=6, column=0, columnspan=4)
 
         self.trash_button = Button(self.root, text="Trash",style="DF.TButton", command=self._trash_button_callback)
         self.trash_button.grid(row=1, column=0)
@@ -48,6 +51,8 @@ class TestingGUI:
         self.upload_button = Button(self.root, text="Upload", style="DF.TButton" ,command=self._upload_button_callback)
         self.upload_button.grid(row=0, column=0)
 
+        self.skip_button = Button(self.root, text="Skip", style='DF.TButton', command=self._skip_button_callback)
+        self.skip_button.grid(row=4, column=0)
 
 
     def set_canvas_img(self, img :  np.ndarray):
@@ -63,11 +68,11 @@ class TestingGUI:
             raise TypeError("needs  to be ndarray")
         self.image_flag.clear()
         self.buttons_ready()
-    def set_classification(self, classification: tuple[str, float]):
-        self.classification_label.configure(text=self.classification_label_text+classification[0]+"-"+classification[1])
+    def set_classification(self, classification: tuple[float, str]):
+        self.classification_label.configure(text=self.classification_label_text+classification[1]+"-"+str(classification[0]))
     def set_button_state(self, state,  style=None):
         #state  must be normal  or  disabled
-        for btn in [self.trash_button, self.recycle_button,  self.upload_button]:
+        for btn in [self.trash_button, self.recycle_button,  self.upload_button, self.skip_button]:
             btn['state']=state
             if style != None:
                 btn.configure(style=style)
@@ -85,6 +90,10 @@ class TestingGUI:
 
     def _on_close(self):
         self.dataset.upload_dirs(['lib/test_collection/Recycle', "lib/test_collection/Trash"], with_annotations=True)
+        
+        #cleanup flags & let thread die by itself
+        self.image_flag.set()
+        self.exit_flag.set()
         self.root.destroy()
 
 
@@ -101,6 +110,9 @@ class TestingGUI:
     def _upload_button_callback(self):
         self.after_button_press()
         self.dataset.upload_dirs(["lib/test_collection/Recycle","lib/test_collection/Trash"])
+    
+    def _skip_button_callback(self):
+        self.after_button_press()
 
 if __name__ == "__main__":
 
