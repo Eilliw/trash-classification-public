@@ -26,7 +26,8 @@ def linux_image_stream(window: TestingGUI, flag: threading.Event):
     picam2 = Picamera2()
     
     still_config = picam2.create_still_configuration(main={"size": (640,640), "format":'RGB888'})
-    picam2.configure(still_config)
+    smallest_full_res_config = picam2.create_still_configuration(main={"size": (1640, 1232), "format":'RGB888'})
+    picam2.configure(smallest_full_res_config)
     picam2.start()
     time.sleep(1)
     while not window.exit_flag.is_set():
@@ -34,9 +35,13 @@ def linux_image_stream(window: TestingGUI, flag: threading.Event):
         try:
             frame = picam2.capture_array("main")
             print(frame.shape)
-                
-            cropped = client.crop_center(frame, 640,640)
-            model_infer = client.call(cropped)
+            rgb_img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            #img comes out in 4:3 ratio - we are resizing it to a square to not distort the image
+            cropped = client.crop_center(rgb_img, 1232,1232)
+            #scaling down the picture to usable dims
+            scaled_down = cv2.resize(cropped, dsize=(640,640), interpolation=cv2.INTER_CUBIC)
+            image = scaled_down
+            model_infer = client.call(image)
 
             #match classification
             output = client.match_class(model_infer[0])
@@ -45,7 +50,7 @@ def linux_image_stream(window: TestingGUI, flag: threading.Event):
             #send  classification  to window
             window.set_classification(output)
             #send  img to  window - this causes the window to aquire the lock
-            window.set_canvas_img(cropped)
+            window.set_canvas_img(image)
         except RuntimeError:
             print("Runtime error reached, most likely on purpose")
     picam2.stop()
@@ -108,6 +113,7 @@ if __name__ == "__main__":
     window = TestingGUI(dataset, cond)
     if sys.platform == "linux":
         from picamera2 import Picamera2
+        image_stream = threading.Thread(target=linux_image_stream, args=(window, cond))
 
     elif sys.platform == 'darwin':
         image_stream = threading.Thread(target=mac_image_stream, args=(window, cond))
