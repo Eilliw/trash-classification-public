@@ -194,8 +194,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
     - [ ] Via local tflite model
 - [ ] Testing
     - [x] pi camera data collection
-    - [ ] Auto database upload
-    - [ ] Gui
+    - [x] Auto dataset upload
+    - [x] Gui
     - [ ] Voxel Fiftyone integration
 - [ ] Triton server container script
 - [ ] Post Expo
