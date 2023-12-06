@@ -84,6 +84,8 @@ class PiCamDataset():
     
     def save_to_local(self, img: Image.Image, path, path_pattern, sequential=True):
         if sequential:
+            if not os.path.exists(path):
+                os.mkdir(path)
             next_name = next_path(path+"/"+path_pattern)
             try:
                 img.save(next_name)
