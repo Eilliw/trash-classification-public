@@ -4,6 +4,7 @@ from tritonclient.utils import triton_to_np_dtype
 #import ultralytics.utils.triton as triton
 #from torchvision import transforms
 import  numpy as np
+import cv2
 
 
 class InferenceClient(grpcclient.InferenceServerClient):
@@ -89,16 +90,21 @@ class InferenceClient(grpcclient.InferenceServerClient):
     def preprocess(self, image: np.ndarray):
         width, length, c = image.shape
         if width !=640  or length != 640:
-            cropped = self.crop_center(image, 640, 640)
+            cropped = cv2.resize(image, dsize=(640, 640), interpolation=cv2.INTER_CUBIC)
         else:
             cropped = image
-        if image.shape != (3, 640, 640):
-            axes_shifted = np.moveaxis(cropped, 2, 0)
-        else:
-            axes_shifted = image
-        
+
         if 'cls' in self.endpoint:
-            axes_shifted = np.resize(axes_shifted, (3, 224, 224))
+            resized = cv2.resize(cropped, dsize=(224, 224), interpolation=cv2.INTER_CUBIC)
+        else:
+            resized = cropped
+
+        if resized.shape != (3, 640, 640) or resized.shape != (3, 224,  224):
+            print("shifted axies")
+            axes_shifted = np.moveaxis(resized, 2, 0)
+        else:
+            axes_shifted = resized
+        
         
         return axes_shifted.astype(np.float32)
 
