@@ -83,6 +83,8 @@ class PiCamDataset():
         self.upload_dir(path, ["Auto_upload", "unlabeled"], with_annotations=False, batch_name=batch_name_datetime)
     
     def save_to_local(self, img: Image.Image, path, path_pattern, sequential=True):
+        cwd = os.getcwd()
+        path  = cwd+path
         if sequential:
             if not os.path.exists(path):
                 os.mkdir(path)
