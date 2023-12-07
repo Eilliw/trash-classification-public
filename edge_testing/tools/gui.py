@@ -109,7 +109,7 @@ class TestingGUI:
 
     def _upload_button_callback(self):
         self.after_button_press()
-        self.dataset.upload_dirs(["lib/test_collection/Recycle","lib/test_collection/Trash"])
+        self.dataset.upload_dirs(["lib/test_collection/Recycle","lib/test_collection/Trash"], with_annotations=True)
     
     def _skip_button_callback(self):
         self.after_button_press()
