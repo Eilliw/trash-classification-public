@@ -1,2 +1,2 @@
-{0: 'Trash',
-1: 'Recycle'}
+{0: 'Recycle',
+1: 'Trash'}
