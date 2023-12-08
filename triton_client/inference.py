@@ -62,10 +62,25 @@ class InferenceClient(grpcclient.InferenceServerClient):
         #self.inputs.set_data_from_numpy(transformed_image)
             self.inputs.set_data_from_numpy(transformed_image)
             results = self.infer(model_name=self.endpoint, inputs=[self.inputs], outputs=[self.outputs])
-            inference_output = results.as_numpy("output__0")[:5]
+            if self.class_num<5:
+                inference_output = results.as_numpy("output__0")
+            else:
+                inference_output = results.as_numpy("output__0")[:5]
+            
             return inference_output
-        else:
-            pass
+        elif self.endpoint=="trash-classification":
+            if self.inputs ==None and self.outputs ==None:
+                self.inputs = self.scheme_class.InferInput("input__0", transformed_image.shape, datatype="FP32")
+                self.outputs = self.scheme_class.InferRequestedOutput("output__0", class_count= self.class_num)
+
+            self.inputs.set_data_from_numpy(transformed_image)
+            results = self.infer(model_name=self.endpoint, inputs=[self.inputs], outputs=[self.outputs])
+            if self.class_num<5:
+                inference_output = results.as_numpy("output__0")
+            else:
+                inference_output = results.as_numpy("output__0")[:5]
+            
+            return inference_output
     def fill_labels(self, labels):
         try:
             with open(labels) as f: return eval(f.read())
@@ -94,7 +109,7 @@ class InferenceClient(grpcclient.InferenceServerClient):
         else:
             cropped = image
 
-        if 'cls' in self.endpoint:
+        if 'cls' in self.endpoint or self.endpoint=="trash-classification":
             resized = cv2.resize(cropped, dsize=(224, 224), interpolation=cv2.INTER_CUBIC)
         else:
             resized = cropped
