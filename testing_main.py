@@ -8,7 +8,7 @@ import dotenv, sys, cv2, threading,  time
 dotenv.load_dotenv(".env")
 
 def get_client():
-    return InferenceClient("192.168.191.129", "yolov8x-cls", "grpc", labels='lib/labels/yolov8-7classes.txt')
+    return InferenceClient("192.168.191.129", "trash-classification", "grpc", labels='lib/labels/2classes.txt')
 
 def crop_center(img,cropx,cropy):
     y,x,c = img.shape

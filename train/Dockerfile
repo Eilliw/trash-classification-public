@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copy the Jupyter notebook and any additional files
-COPY train/yolov8.ipynb .
+COPY yolov8.ipynb .
 COPY scripts/train.py scripts/
 COPY train_requirements.txt .
 COPY .env .
@@ -31,4 +31,4 @@ EXPOSE 8888
 # Command to run Jupyter notebook
 #CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
 # Command to run Jupyter notebook and clearml-init
-CMD ["sh", "-c", "clearml-init --file secrets/clearml.conf && jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root"]
+CMD ["sh", "-c", "clearml-init --file secrets/clearml.conf && export $(cat .env | xargs) && jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root"]
