@@ -1,5 +1,6 @@
 # if __name__ == "__main__":
 #     raise ChildProcessError
+import clearml
 import os
 #import comet_ml
 #from comet_ml import API
@@ -9,7 +10,7 @@ import shutil
 from functools import partial
 import numpy as np
 import dotenv
-import clearml
+
 #display.clear_output()
 
 import ultralytics
@@ -34,7 +35,7 @@ ROBOFLOW_API_KEY = os.getenv("ROBOFLOW_API_KEY")
 
 
 class YOLO_Trainer():
-    def __init__(self,dataset_version='latest',  model='yolov8n.pt', task="detect", workspace_id="trashclassification-tayqe", project_id="trash-xvysc", comet_workspace='eilliw', classify_workspace_id="trashclassification-tayqe", classify_project_id="trash-classification-vky3a") -> None:
+    def __init__(self,dataset_version='latest',  model='yolov8n.pt', task="detect", workspace_id="trashclassification-tayqe", project_id="trash-xvysc", comet_workspace='eilliw', classify_workspace_id="trashclassification-tayqe", classify_project_id="trash-classification-vky3a", clearml_project_name="trash-classification") -> None:
 
         self.dataset_version = dataset_version
         self.workspace_id = workspace_id
@@ -42,6 +43,8 @@ class YOLO_Trainer():
 
         self.classify_workspace_id = classify_workspace_id
         self.classify_project_id = classify_project_id
+
+        self.clearml_project_name = clearml_project_name
 
         self.task = task
 
@@ -52,11 +55,12 @@ class YOLO_Trainer():
         self.comet_workspace = comet_workspace
 
         self.dataset = self._get_dataset(self.workspace_id, self.project_id, task)
+        self.fix_dataset()
 
     def train(self, project, exist_ok=False, name = None, dummy=False, task='detect', plots = True, imgsz = 640, save_json = True, epochs=100, save_period=5, workers=16, bs=64,  export=None, cache=False):
         if name != None:
             try:
-                os.mkdir(project+"//"+name)
+                os.makedirs(project+"//"+name)
             except FileExistsError:
                 print(project+"//"+name+" Already exists")
         
@@ -94,7 +98,13 @@ class YOLO_Trainer():
             os.makedirs(desired_path)
         except FileExistsError:
             pass
-        return shutil.move(exported_model_path, desired_path)
+        shutil.move(exported_model_path, desired_path)
+    def fix_dataset(self):
+        try:
+            os.rename(self.dataset.location+"/valid",self.dataset.location+"/val")
+        except:
+            pass
+        return
     def _get_dataset(self, workspace_id, project_id, task):
         rf = Roboflow(api_key=ROBOFLOW_API_KEY)
         
@@ -102,7 +112,7 @@ class YOLO_Trainer():
         dataset_type = "yolov8"
 
         if task =="classify":
-            dataset_type="clip"
+            dataset_type="folder"
             project = rf.workspace(self.classify_workspace_id).project(self.classify_project_id)
 
         elif task=="detect":
@@ -118,13 +128,14 @@ class YOLO_Trainer():
         else:
             dataset_abs_path = os.path.abspath(f"{os.getcwd()}/datasets/trash-{self.project_version}/{dataset_type}")
             dataset = project.version(self.project_version).download(dataset_type,overwrite=False, location=dataset_abs_path)
+
             return dataset
     def _get_classify_dataset(self):
         pass
 
     def _setup_clearml(self):
         from clearml import Task
-        self.task = Task.init(project_name='trash-classification', reuse_last_task_id=False)
+        self.task = Task.init(project_name=self.clearml_project_name, reuse_last_task_id=False)
 
     def _setup_comet(self, name):
         self.experiment = comet_ml.Experiment(project_name=name)
