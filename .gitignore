@@ -12,6 +12,9 @@ raspvenv
 trash-classification
 runs
 
+#clearml config
+clearml**
+
 #old repo init stuff
 
 old
