@@ -87,7 +87,14 @@ class InferenceClient(grpcclient.InferenceServerClient):
             with open(labels) as f: return eval(f.read())
         except Exception as e:
             print(e)
-    
+    def match_classes(self, byte_strings : list[bytes]):
+        preds = {}
+        for byte_string in byte_strings:
+            output = byte_string.decode("utf-8")
+            confidence, classification = output.split(":")
+            preds[self.labels[int(classification)]] = float(confidence)
+        return preds
+
     def match_class(self, byte_string: bytes):
 
         output = byte_string.decode("utf-8")
