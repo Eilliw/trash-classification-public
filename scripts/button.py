@@ -248,8 +248,8 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         button.picamdataset.collection_upload(path="lib/unlabeled-imgs", delete=True)
         button.clean_up()
-        client.close()
         picam2.stop()
+        client.close()
     
     
 
