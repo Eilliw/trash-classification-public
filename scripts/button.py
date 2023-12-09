@@ -134,6 +134,12 @@ class InferenceButton():
                 self.servo2.detach()
                 print("waiting 10 seconds")
                 time.sleep(10)
+                self.servo1.mid()
+                time.sleep(.2)
+                self.servo1.detach()
+                self.servo2.mid()
+                time.sleep(.2)
+                self.servo2.detach()
                 img = Image(cv2.resize(image, dsize=(224, 224), interpolation=cv2.INTER_CUBIC))
                 if os.listdir("lib/unlabeled-imgs") < 5000:
                     PiCamDataset.save_to_local(img, path="lib/unlabeled-imgs", path_pattern=None, sequential=False)
