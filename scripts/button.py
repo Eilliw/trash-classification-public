@@ -134,6 +134,7 @@ class InferenceButton():
                 print("waiting 10 seconds")
                 time.sleep(10)
                 img = Image(cv2.resize(image, dsize=(224, 224), interpolation=cv2.INTER_CUBIC))
+                if os.listdir("lib/unlabeled-imgs")
                 PiCamDataset.save_to_local(img, path="lib/unlabeled-imgs", path_pattern=None, sequential=False)
                 return
         except:
