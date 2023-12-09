@@ -2,7 +2,7 @@ import tritonclient.grpc as grpcclient
 import tritonclient.http as httpclient
 from tritonclient.utils import triton_to_np_dtype
 #import ultralytics.utils.triton as triton
-#from torchvision import transforms
+from torchvision import transforms
 import  numpy as np
 import cv2
 
@@ -114,14 +114,22 @@ class InferenceClient(grpcclient.InferenceServerClient):
         else:
             resized = cropped
 
-        if resized.shape != (3, 640, 640) or resized.shape != (3, 224,  224):
-            print("shifted axies")
-            axes_shifted = np.moveaxis(resized, 2, 0)
-        else:
-            axes_shifted = resized
+        # if resized.shape != (3, 640, 640) or resized.shape != (3, 224,  224):
+        #     print("shifted axies")
+        #     axes_shifted = np.moveaxis(resized, 2, 0)
+        # else:
+        #     axes_shifted = resized
+        transform = transforms.Compose([ 
+        transforms.ToTensor() 
+                        ]) 
+  
+        # Convert the image to Torch tensor 
+        image_tensor = transform(image) 
         
         
-        return axes_shifted.astype(np.float32)
+        
+        #return axes_shifted.astype(np.float32)
+        return image_tensor
 
         # if not isinstance(image, np.ndarray):
         #     preprocess = transforms.Compose(
