@@ -99,6 +99,9 @@
 * [![Python3.10][Python]][Python-url]
 * [![YOLOv8][Ultralytics]][Ultralytics-url]
 * [![Nvidia-Triton][Nvidia]][Triton-url]
+* <a href="https://universe.roboflow.com/trashclassification-tayqe/trash-vs-recycling-pi-cam">
+    <img src="https://app.roboflow.com/images/download-dataset-badge.svg"></img>
+</a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
