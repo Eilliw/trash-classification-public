@@ -9,11 +9,14 @@ from functools import partial
 from PIL import Image
 import cv2
 
+from edge_testing.tools.dataset import PiCamDataset
+
 os.chdir(".")
 cwd = os.getcwd()
 print(cwd)
 sys.path.insert(0, f"{cwd}/triton_client")
 from inference import InferenceClient
+
 
 
 
@@ -56,6 +59,8 @@ class InferenceButton():
         self.inference_client_obj = inference_client_object
         self.picam2_obj = picam2_obj
         
+        self.picamdataset = PiCamDataset()
+        
         GPIO.setwarnings(False) # Ignore warning for now
         GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
         GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
@@ -83,20 +88,60 @@ class InferenceButton():
         image = scaled_down
             
         return image
-    def inference_request(self, image):
+    def inference_request(self, image, all_outputs=False):
         client = self.inference_client_obj
         output = client.call(image)
-        clean_output = client.match_class(output[0])
-        return clean_output
-        
+        if not all_outputs:
+            clean_output = client.match_class(output[0])
+            return clean_output
+        else:
+            clean_outputs: dict = client.match_classes(output)
+            return clean_outputs
+    def check_if_different_enough(self, t, r, difference=15):
+        #normalize
+        t = t*100
+        r = r*100
+        dif = abs(t-r)
+        if dif > 15:
+            return True
+        else:
+            return False
     def button_callback(self, channel):
         ### send inference request to InfrenceClient
         image = self.capture_img(self.picam2_obj)
-        output = self.inference_request(image)
+        #output = self.inference_request(image)
+        outputs: dict =self.inference_request(image, all_outputs=True)
         ### take inference  output and move matching servo
         #output = (1.0000, 'Trash')
-        print(f"detected : {output[1]}-{output[0]}")
-        classification = output[1]
+        print("Button was pushed!")
+        print(f"detections: {outputs}")
+        highest_classification_key = max(outputs, key=outputs.get)
+        print(f"What was detected: {highest_classification_key}-{outputs[highest_classification_key]}")
+        
+        #check if classification is different enough
+        try:
+            if self.check_if_different_enough(outputs["Trash"], outputs["Recycle"]):
+                pass
+            else:
+                print("model classification score is not different enough, allowing user override")
+                #moving both servos
+                self.servo1.max()
+                time.sleep(.2)
+                self.servo1.detach()
+                self.servo2.max()
+                time.sleep(.2)
+                self.servo2.detach()
+                print("waiting 10 seconds")
+                time.sleep(10)
+                img = Image(cv2.resize(image, dsize=(224, 224), interpolation=cv2.INTER_CUBIC))
+                PiCamDataset.save_to_local(img, path="lib/unlabeled-imgs", path_pattern=None, sequential=False)
+                return
+        except:
+            print("check if different couldn't complete")
+
+        classification = highest_classification_key
+        #print(f"detected : {output[1]}-{output[0]}")
+        #classification = output[1]
         if classification =='Trash' or classification=='Recycle':
             pass
         elif classification in ['Paper', 'Metal', 'Plastic', 'Cardboard', 'Glass']:
@@ -108,8 +153,8 @@ class InferenceButton():
         elif classification == "Recycle":
             servo = self.servo2
         #print(f"servo value : {servo.value}\nservo pusle width:{servo.pulse_width}")
-        print(f"classification as [{classification}-{output[0]}]")
-        print("Button was pushed!")
+        #print(f"classification as [{classification}-{output[0]}]")
+        
         #servo.min()
         #sleep(1)
         #print(f"servo min val:{servo.value}")
@@ -186,6 +231,7 @@ if __name__ == "__main__":
             pass
             
     except KeyboardInterrupt:
+        button.picamdataset.collection_upload(path="lib/unlabeled-imgs", delete=True)
         button.clean_up()
         client.close()
         picam2.stop()
