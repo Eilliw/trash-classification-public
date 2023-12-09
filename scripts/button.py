@@ -65,6 +65,11 @@ class InferenceButton():
         self.servo1 = Servo(servo1, min_pulse_width=self.servo_pulse_widths[0], max_pulse_width= self.servo_pulse_widths[2], pin_factory=pigpio_factory)
         self.servo2 = Servo(servo2, min_pulse_width=self.servo_pulse_widths[0], max_pulse_width= self.servo_pulse_widths[2], pin_factory=pigpio_factory)
         
+        #setting servos to be initially in their mid position to lock trash can lid
+        print("setting servos to their initial mid position")
+        for servo in [self.servo1, self.servo2]:
+            servo.mid()
+            servo.detach()
 
         #message = input("Press enter to quit\n\n")
     def capture_img(self, picam2):
