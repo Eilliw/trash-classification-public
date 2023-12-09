@@ -7,6 +7,7 @@ import time
 from picamera2 import Picamera2
 from functools import partial
 from PIL import Image
+import cv2
 
 os.chdir(".")
 cwd = os.getcwd()
@@ -69,9 +70,14 @@ class InferenceButton():
     def capture_img(self, picam2):
         frame = picam2.capture_array("main")
         print(frame.shape)
+        rgb_img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        #img comes out in 4:3 ratio - we are resizing it to a square to not distort the image
+        cropped = client.crop_center(rgb_img, 1232,1232)
+        #scaling down the picture to usable dims
+        scaled_down = cv2.resize(cropped, dsize=(640,640), interpolation=cv2.INTER_CUBIC)
+        image = scaled_down
             
-        cropped = self.inference_client_obj.crop_center(frame, 640,640)
-        return cropped
+        return image
     def inference_request(self, image):
         client = self.inference_client_obj
         output = client.call(image)
@@ -153,18 +159,19 @@ class InferenceButton():
 if __name__ == "__main__":
     
     print(os.getcwd())
-    client = InferenceClient("192.168.191.129", "yolov8x-cls", "grpc", labels='lib/labels/yolov8-7classes.txt')
+    client = InferenceClient("192.168.191.129", "trash-classification", "grpc", labels='lib/labels/2classes.txt')
     print("made client")
     print("aliveness check:", client.is_server_live())
     
     picam2 = Picamera2()
     
     still_config = picam2.create_still_configuration(main={"size": (640,640), "format":'RGB888'})
-    picam2.configure(still_config)
+    smallest_full_res_config = picam2.create_still_configuration(main={"size": (1640, 1232), "format":'RGB888'})
+    picam2.configure(smallest_full_res_config)
     picam2.start()
     time.sleep(1)
     
-    button = InferenceButton(client, picam2, 22, 27, mode='test')
+    button = InferenceButton(client, picam2, 27, 22, mode='run')
     
     #initilising camera
     
