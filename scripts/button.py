@@ -102,7 +102,7 @@ class InferenceButton():
         t = t*100
         r = r*100
         dif = abs(t-r)
-        if dif > 15:
+        if dif > difference:
             return True
         else:
             return False
