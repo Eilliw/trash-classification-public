@@ -87,11 +87,12 @@ def mac_image_stream(window: TestingGUI ,flag: threading.Event):
                     print(model_infer)
 
                     #match classification
-                    output = client.match_class(model_infer[0])
-                    print(output)
+                    outputs = client.match_classes(model_infer)
+                    highest_classification_key = max(outputs, key=outputs.get)
+                    print(outputs)
 
                     #send  classification  to window
-                    window.set_classification(output)
+                    window.set_classification((outputs[highest_classification_key], highest_classification_key))
                     #send  img to  window - this causes the window to clear the event flag
                     window.set_canvas_img(cropped)
             except RuntimeError:
