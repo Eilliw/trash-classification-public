@@ -9,14 +9,15 @@ from functools import partial
 from PIL import Image
 import cv2
 
-from edge_testing.tools.dataset import PiCamDataset
+
 
 os.chdir(".")
 cwd = os.getcwd()
 print(cwd)
 sys.path.insert(0, f"{cwd}/triton_client")
+sys.path.insert(0, f"{cwd}/edge_testing/tools")
 from inference import InferenceClient
-
+from dataset import PiCamDataset
 
 
 
