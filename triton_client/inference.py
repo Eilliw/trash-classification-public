@@ -3,6 +3,7 @@ import tritonclient.http as httpclient
 from tritonclient.utils import triton_to_np_dtype
 #import ultralytics.utils.triton as triton
 from torchvision import transforms
+import torch
 import  numpy as np
 import cv2
 
@@ -120,16 +121,18 @@ class InferenceClient(grpcclient.InferenceServerClient):
         # else:
         #     axes_shifted = resized
         transform = transforms.Compose([ 
-        transforms.ToTensor() 
+        transforms.ToTensor(),
+        transforms.ConvertImageDtype(torch.float32)
                         ]) 
   
         # Convert the image to Torch tensor 
         image_tensor = transform(image) 
         
         
-        
         #return axes_shifted.astype(np.float32)
-        return image_tensor
+        print(image_tensor)
+        t = torch.tensor(image_tensor)
+        return t.numpy()
 
         # if not isinstance(image, np.ndarray):
         #     preprocess = transforms.Compose(
