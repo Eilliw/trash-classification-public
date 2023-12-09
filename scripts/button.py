@@ -67,7 +67,7 @@ class InferenceButton():
         GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
 
         self.servo_pulse_widths = [.5/1000,0, 2.5/1000]
-        GPIO.add_event_detect(10,GPIO.RISING,callback=self.button_callback)
+        #GPIO.add_event_detect(10,GPIO.RISING,callback=self.button_callback,bouncetime=100)
         self.servo1 = Servo(servo1, min_pulse_width=self.servo_pulse_widths[0], max_pulse_width= self.servo_pulse_widths[2], pin_factory=pigpio_factory)
         self.servo2 = Servo(servo2, min_pulse_width=self.servo_pulse_widths[0], max_pulse_width= self.servo_pulse_widths[2], pin_factory=pigpio_factory)
         
@@ -76,6 +76,7 @@ class InferenceButton():
         for servo in [self.servo1, self.servo2]:
             servo.mid()
             servo.detach()
+            time.sleep(.2)
 
         #message = input("Press enter to quit\n\n")
     def capture_img(self, picam2):
@@ -236,6 +237,12 @@ if __name__ == "__main__":
     try:
         while True:
             #capturing image
+            
+            #manual button check
+            input_state = GPIO.input(10)
+            if input_state == True:
+                button.button_callback(None)
+            time.sleep(.1)
             pass
             
     except KeyboardInterrupt:
