@@ -66,7 +66,7 @@ class PiCamDataset():
         with open(json_path, "w") as outfile:
             outfile.write(json_object)
         return json_path
-    def upload_dir(self, dir, tags=[], ext=".jpg", with_annotations=False, batch_name  = None):
+    def upload_dir(self, dir, tags=[], ext=".jpg", with_annotations=False, batch_name  = None, delete=False):
         clean_dir = dir.split("/")[-1]
         image_glob = glob.glob(dir + '/*' + ext)
         for img in image_glob:
@@ -74,13 +74,15 @@ class PiCamDataset():
                 self.project.upload(img, annotation_path=clean_dir,  tag_names=tags, batch_name=batch_name)
             else:
                 self.project.upload(img, tag_names=tags, batch_name=batch_name)
+            if delete:
+                os.remove(img)
     def upload_dirs(self, dirs: list[str], ext=".jpg", with_annotations=False):
         for dir in dirs:
             self.upload_dir(dir, with_annotations=with_annotations)
         return
     def collection_upload(self, path="lib/image_collection", delete=False):
         batch_name_datetime = datetime.now(timezone.utc).strftime("%y-%m-%d_%H:%M_%Z-auto_upload")
-        self.upload_dir(path, ["Auto_upload", "unlabeled"], with_annotations=False, batch_name=batch_name_datetime)
+        self.upload_dir(path, tags=["Auto_upload", "unlabeled"], with_annotations=False, batch_name=batch_name_datetime, delete=delete)
     
     def save_to_local(self, img: Image.Image, path, path_pattern, sequential=True):
         cwd = os.getcwd()
@@ -94,6 +96,15 @@ class PiCamDataset():
                 print("saved image to "+next_name)
             except:
                 raise
+        else:
+            if not os.path.exists(path):
+                os.makedirs(path)
+                img_name = path+"/"+datetime.now(timezone.utc).strftime("%y-%m-%d_%H:%M:%S_%Z.jpg")
+                try:
+                    img.save(img_name)
+                    print("saved image to "+img_name)
+                except:
+                    print("couldn't save image")
 
 if __name__ == "__main__":
     dataset = PiCamDataset()
