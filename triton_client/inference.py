@@ -133,11 +133,11 @@ class InferenceClient(grpcclient.InferenceServerClient):
                         ]) 
   
         # Convert the image to Torch tensor 
-        image_tensor = transform(image) 
+        image_tensor = transform(resized) 
         
         
         #return axes_shifted.astype(np.float32)
-        print(image_tensor)
+        #print(image_tensor)
         t = torch.tensor(image_tensor)
         return t.numpy()
 
