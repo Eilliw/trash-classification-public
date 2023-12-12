@@ -110,9 +110,6 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 This repository contains the triton_server submodule that you can use if you wish to inference a remote model. 
 In this project, a remote triton server is being used.
 
@@ -126,7 +123,10 @@ This is intended to be run on a raspberry pi running on Debian bookworm
     ```sh
     sudo apt upgrade
     ```
-
+* Pi required packages
+  ```sh
+  sudo apt install -y python3-picamera2 python3-rpi.gpio
+  ```
 * libcamera
   Make sure libcamera is up to date and shows a preview from one of the follwing commands
    ```sh
