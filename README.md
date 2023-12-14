@@ -42,9 +42,7 @@
     We came up with the idea of a smart trash can that would sort your trash to help with the problem of waste being disposed of improperly using computer vision. 
     <br />
     <br />
-      <b >
-    Below you will find all of the source code used to train and inference our AI model.
-      <b >
+    <b>Below you will find all of the source code used to train and inference our AI model. The Usage section contains many examples and helpful visuals</b>
     <br />
     <a href="https://github.com/Eilliw/trash-classification-public"><strong>Explore the docs »</strong></a>
     <br />
@@ -121,6 +119,23 @@ Here is a depiction of a very rough prototype of our project.
 This repository contains the triton_server submodule that you can use if you wish to inference a remote model. 
 In this project, a remote triton server is being used.
 
+
+If you would like to initilise the git lfs tc-triton-submodule after cloning the repo follow these steps.
+* Make sure git lfs is installed
+  ```sh
+  git lfs install
+  ```
+* cd into submodule directory
+  ```sh
+  cd triton_server
+  ```
+* Initilize local configuration file & clone
+  ```sh
+  git submodule init
+  ```
+  ```sh
+  git submodule update
+  ```
 ### Edge Prerequisites
 
 This is intended to be run on a raspberry pi running on Debian bookworm
@@ -159,7 +174,7 @@ Much of the code will have to be changed to fix path issues.
    ```
 2. cd into repo directory
 3. Create python venv
-   ```sh
+   ```python
    python3 -m venv venv --system-site-packages
    ```
 4. Install python dependencies
@@ -187,11 +202,28 @@ Much of the code will have to be changed to fix path issues.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### Testing GUI examples
+
+  #### Trash
+  <img src="https://github.com/Eilliw/trash-classification-public/blob/main/src/images/usage-examples/test-gui-trash-1.png" width="250x"><img src="https://github.com/Eilliw/trash-classification-public/blob/main/src/images/usage-examples/test-gui-trash-2.png" width="250x">
+
+  The dorito bag and the reciept are being classified as trash at 97.6% and 94.6% confidence respectively
+
+
+  #### Recycle
+  <img src="https://github.com/Eilliw/trash-classification-public/blob/main/src/images/usage-examples/test-gui-recycle-1.png" width="250x">
+  
+  The Celcius can above is being classified as recycling at 97% confidence
+
+
+  ### Triton Inference Server
+  <img src="https://github.com/Eilliw/trash-classification-public/blob/main/src/images/usage-examples/triton-inference-server-container.PNG" width="450x">
+
+  Of the above models trash-classification is being used as our main model as it is trained apon our [dataset](https://universe.roboflow.com/trashclassification-tayqe/trash-vs-recycling-pi-cam) and the current version of our model is version [3](https://github.com/Eilliw/tc-triton-server/blob/main/model_repo/trash-classification/3/best.pt). All models stored in the [tc-triton-server](https://github.com/Eilliw/tc-triton-server/tree/main) are stored in the torchscript format using git lfs.
+
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
@@ -264,9 +296,10 @@ Project Link: [https://github.com/Eilliw/trash-classification-public](https://gi
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+* [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics)
+* [Roboflow](https://roboflow.com/)
+* [Triton Inference Server](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/tritonserver)
+* [Zerotier](https://www.zerotier.com/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -292,6 +325,14 @@ Project Link: [https://github.com/Eilliw/trash-classification-public](https://gi
 [product-screenshot]: images/screenshot.png
 
 [rough-prototype-image]: src/images/transparent-rough-prototype.png
+
+[trash-1]: src/images/usage-examples/test-gui-trash-1.png
+[trash-2]: src/images/usage-examples/test-gui-trash-2.png
+
+[recycle-1]: src/images/usage-examples/test-gui-recycle-1.png
+
+[triton-inference-server-container-shell]: src/images/usage-examples/triton-inference-server-container.PNG
+
 
 [Rasp]: https://img.shields.io/badge/Raspberry--pi(64bit)-e77499?style=for-the-badge&logo=raspberrypi&logoColor=A22846
 [Rasp-url]: https://www.raspberrypi.com/software/operating-systems/#raspberry-pi-os-64-bit
