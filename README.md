@@ -38,7 +38,13 @@
 <h3 align="center">Trash Classification - Edge Deployment, Traning, & Testing</h3>
 
   <p align="center">
-    project_description
+    For GEEN-1400 or First-Year Engineering Projects at the University of Colorado Boulder, we, Team-51, were tasked with creating a product that had a positive impact on sustainability especially on our campus.
+    We came up with the idea of a smart trash can that would sort your trash to help with the problem of waste being disposed of improperly using computer vision. 
+    <br />
+    <br />
+      <b >
+    Below you will find all of the source code used to train and inference our AI model.
+      <b >
     <br />
     <a href="https://github.com/Eilliw/trash-classification-public"><strong>Explore the docs »</strong></a>
     <br />
@@ -86,7 +92,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][rough-prototype-image]](https://example.com)
+
+Here is a depiction of a very rough prototype of our project.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -282,6 +290,8 @@ Project Link: [https://github.com/Eilliw/trash-classification-public](https://gi
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/willie-chuter
 [product-screenshot]: images/screenshot.png
+
+[rough-prototype-image]: src/images/transparent-rough-prototype.png
 
 [Rasp]: https://img.shields.io/badge/Raspberry--pi(64bit)-e77499?style=for-the-badge&logo=raspberrypi&logoColor=A22846
 [Rasp-url]: https://www.raspberrypi.com/software/operating-systems/#raspberry-pi-os-64-bit
