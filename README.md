@@ -136,6 +136,10 @@ If you would like to initilise the git lfs tc-triton-submodule after cloning the
   ```sh
   git submodule update
   ```
+Or you could just make it easy and just run
+```sh
+git clone  --recurse-submodules https://github.com/Eilliw/trash-classification-public.git
+```
 ### Edge Prerequisites
 
 This is intended to be run on a raspberry pi running on Debian bookworm
