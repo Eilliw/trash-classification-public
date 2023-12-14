@@ -32,7 +32,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Eilliw/trash-classification-public">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="src/images/expo-trash-can.png" alt="Logo" width="150" height="150">
   </a>
 
 <h3 align="center">Trash Classification - Edge Deployment, Traning, & Testing</h3>
@@ -90,9 +90,14 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+<img src="src/images/expo-trash-can.png" alt="Logo" width="350">
+
+This is our project that we presented at the ITLL Design Expo. 
+
 [![Product Name Screen Shot][rough-prototype-image]](https://example.com)
 
 Here is a depiction of a very rough prototype of our project.
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
