@@ -105,8 +105,22 @@ class PiCamDataset():
                     print("saved image to "+img_name)
                 except:
                     print("couldn't save image")
+    def get_latest_dataset_version(self):
+        versions = self.project.versions()
+        dataset = self.project.version(len(versions))
+        return dataset
+    def set_dataset_weights(self, weights_dir, version=-1, model_type = "yolov8-cls"):
+        model_type = model_type
+        if version == -1:
+            dataset = self.get_latest_dataset_version()
+            dataset.deploy(model_type, weights_dir)
+        else:
+            dataset = self.project.version(version)
+            dataset.deploy(model_type, weights_dir)
+        
 
 if __name__ == "__main__":
     dataset = PiCamDataset()
     dataset.download_latest()
-    dataset.upload_dirs(["lib/test_collection/Recycle","lib/test_collection/Trash"])
+    #dataset.upload_dirs(["lib/test_collection/Recycle","lib/test_collection/Trash"])
+    dataset.set_dataset_weights("trash-classification/3")
