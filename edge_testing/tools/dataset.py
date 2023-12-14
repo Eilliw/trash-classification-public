@@ -123,4 +123,6 @@ if __name__ == "__main__":
     dataset = PiCamDataset()
     dataset.download_latest()
     #dataset.upload_dirs(["lib/test_collection/Recycle","lib/test_collection/Trash"])
-    dataset.set_dataset_weights("trash-classification/3")
+    dataset_weights_dir = str(input("What is the directory of the model traning directory: "))
+    #dataset.set_dataset_weights("/home/wchuter/Willie-ML/trash-classification-public/trash-classification/yolov8x-cls")
+    dataset.set_dataset_weights(dataset_weights_dir)
