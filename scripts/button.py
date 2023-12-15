@@ -73,6 +73,7 @@ class InferenceButton():
         
         #setting servos to be initially in their mid position to lock trash can lid
         print("setting servos to their initial mid position")
+        time.sleep(.25)
         for servo in [self.servo1, self.servo2]:
             servo.mid()
             servo.detach()
