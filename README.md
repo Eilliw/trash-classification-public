@@ -44,7 +44,7 @@
     <br />
     <b>Below you will find all of the source code used to train and inference our AI model. The Usage section contains many examples and helpful visuals</b>
     <br />
-    <a href="https://github.com/Eilliw/trash-classification-public"><strong>Explore the docs »</strong></a>
+    <a href="#simple-documentation"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/Eilliw/trash-classification-public">View Demo</a>
