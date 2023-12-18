@@ -77,6 +77,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
+    <li><a href="#simple-documentation">Simple Documentation</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -238,7 +239,23 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- quick documentation and explanation of how project works-->
+## Simple Documentation
+Below you will find some simple documentation including flowcharts and explanations of code to a shallow extent.
 
+### Button Callback Flowchart
+During our expo we controlled when the trash can would open using a button.
+This Button has a call back that would take an image, output a model inference, and depending on the output, open one of the trashcan doors.
+
+<img src="https://github.com/Eilliw/trash-classification-public/blob/main/src/images/button_click_flowchart.png" height="600px">
+
+### Testing GUI Flowchart
+To testing our AI model's accuracy, see the image it was working with, and have a more acessible way to testing our product we created a GUI.
+This GUI was built with tkinter and automatically captures the most recent camera image.
+You click a button based on the classification of the image and it is saved to disk to later be uploaded to our dataset on Roboflow.
+The classification of said image is also shown to give you information on if the model already knows this object.
+
+<img src="https://github.com/Eilliw/trash-classification-public/blob/main/src/images/testing_gui_flowchart.png" height="600px">
 
 <!-- ROADMAP -->
 ## Roadmap
